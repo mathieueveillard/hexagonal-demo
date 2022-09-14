@@ -1,37 +1,5 @@
-export type Language = "EN" | "FR";
-
-interface Word<L extends Language> {
-  language: L;
-  value: string;
-}
-
-export type OtherLanguage<L extends Language> = Exclude<Language, L>;
-
-export interface Translation<N extends Language> {
-  id: string;
-  native: Word<N>;
-  foreign: Word<OtherLanguage<N>>;
-}
-
-export type IdGenerator = () => string;
-
-export interface TranslationStorage<N extends Language> {
-  getAllTranslationsForForeignLanguage(
-    language: OtherLanguage<N>
-  ): Promise<Translation<N>[]>;
-  saveTranslation(translation: Translation<N>): Promise<void>;
-}
-
-export interface Dependencies<N extends Language> {
-  createId: IdGenerator;
-  storage: TranslationStorage<N>;
-}
-
-const getAllTranslationsForForeignLanguage =
-  <N extends Language>({ storage }: Dependencies<N>) =>
-  async (language: OtherLanguage<N>): Promise<Translation<N>[]> => {
-    return storage.getAllTranslationsForForeignLanguage(language);
-  };
+import { Dependencies } from "./dependencies";
+import { Language, OtherLanguage, Translation } from "./types";
 
 export type ProtoTranslation<N extends Language> = Omit<Translation<N>, "id">;
 
@@ -45,7 +13,15 @@ const addTranslation =
     await storage.saveTranslation(translation);
   };
 
-export const translationApi = {
-  getAllTranslationsForForeignLanguage,
+const getAllTranslationsForForeignLanguage =
+  <N extends Language>({ storage }: Dependencies<N>) =>
+  async (language: OtherLanguage<N>): Promise<Translation<N>[]> => {
+    return storage.getAllTranslationsForForeignLanguage(language);
+  };
+
+const translationApi = {
   addTranslation,
+  getAllTranslationsForForeignLanguage,
 };
+
+export default translationApi;

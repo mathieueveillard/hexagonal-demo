@@ -1,9 +1,5 @@
-import {
-  Language,
-  OtherLanguage,
-  Translation,
-  TranslationStorage,
-} from "../../domain";
+import { TranslationStorage } from "../../domain/dependencies";
+import { Language, Translation, OtherLanguage } from "../../domain/types";
 import LocalStorage from "./LocalStorage";
 
 export default class TranslationStorageACL<N extends Language>

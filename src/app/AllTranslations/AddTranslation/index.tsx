@@ -1,27 +1,27 @@
 import React from "react";
-import { dependencies } from "../../..";
-import { translationApi, ProtoTranslation } from "../../../domain";
+import { domain } from "../../..";
+import { ProtoTranslation } from "../../../domain";
 
-export default function Component(): React.ReactElement {
+const Component = (): React.ReactElement => {
   const [nativeWord, setNativeWord] = React.useState("");
 
   const [foreignWord, setForeignWord] = React.useState("");
 
   const canSubmit = nativeWord && foreignWord;
 
-  function onNativeWordChange(
+  const onNativeWordChange = (
     event: React.SyntheticEvent<HTMLInputElement>
-  ): void {
+  ): void => {
     setNativeWord(event.currentTarget.value);
-  }
+  };
 
-  function onForeignWordChange(
+  const onForeignWordChange = (
     event: React.SyntheticEvent<HTMLInputElement>
-  ): void {
+  ): void => {
     setForeignWord(event.currentTarget.value);
-  }
+  };
 
-  async function submit(): Promise<void> {
+  const submit = async (): Promise<void> => {
     if (canSubmit) {
       const protoTranslation: ProtoTranslation<"EN"> = {
         native: {
@@ -33,9 +33,9 @@ export default function Component(): React.ReactElement {
           value: foreignWord,
         },
       };
-      await translationApi.addTranslation(dependencies)(protoTranslation);
+      await domain.addTranslation(protoTranslation);
     }
-  }
+  };
 
   return (
     <table>
@@ -63,4 +63,6 @@ export default function Component(): React.ReactElement {
       </tbody>
     </table>
   );
-}
+};
+
+export default Component;

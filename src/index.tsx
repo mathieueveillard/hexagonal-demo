@@ -1,13 +1,19 @@
-import React from "react";
 import ReactDOM from "react-dom";
 import createId from "./dependencies/createId";
 import TranslationStorageACL from "./dependencies/storage/TranslationStorageACL";
-import { Dependencies } from "./domain";
-import AllTranslations from "./views/AllTranslations";
+import AllTranslations from "./app/AllTranslations";
+import { Dependencies } from "./domain/dependencies";
+import translationApi from "./domain";
 
-export const dependencies: Dependencies<"EN"> = {
+const dependencies: Dependencies<"EN"> = {
   createId,
   storage: new TranslationStorageACL<"EN">(),
+};
+
+export const domain = {
+  addTranslation: translationApi.addTranslation(dependencies),
+  getAllTranslationsForForeignLanguage:
+    translationApi.getAllTranslationsForForeignLanguage(dependencies),
 };
 
 ReactDOM.render(<AllTranslations />, document.getElementById("root"));

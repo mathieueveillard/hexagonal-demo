@@ -1,17 +1,17 @@
 import React from "react";
-import { dependencies } from "../..";
-import { translationApi, Translation } from "../../domain";
+import { domain } from "../..";
+import { Translation } from "../../domain/types";
 import AddTranslation from "./AddTranslation";
 import TranslationItem from "./TranslationItem";
 
-export default function Component(): React.ReactElement {
+const Component = (): React.ReactElement => {
   const [translations, setTranslations] = React.useState<Translation<"EN">[]>(
     []
   );
 
   React.useEffect(() => {
-    translationApi
-      .getAllTranslationsForForeignLanguage(dependencies)("FR")
+    domain
+      .getAllTranslationsForForeignLanguage("FR")
       .then((translations) => setTranslations(translations));
   });
 
@@ -33,4 +33,6 @@ export default function Component(): React.ReactElement {
       </section>
     </div>
   );
-}
+};
+
+export default Component;
