@@ -1,11 +1,14 @@
-interface HasId {
+type HasId = {
   id: string;
-}
+};
 
-const matchesId = (idToMatch: string) => ({ id }: HasId): boolean => id === idToMatch
+const matchesId =
+  (idToMatch: string) =>
+  ({ id }: HasId): boolean =>
+    id === idToMatch;
 
 export default class LocalStorage<Item extends HasId> {
-  constructor(private readonly key: string) { }
+  constructor(private readonly key: string) {}
 
   getAllItems(): Item[] {
     return this.readFromLocalStorage();
@@ -60,4 +63,3 @@ export default class LocalStorage<Item extends HasId> {
     return Error(`Item with id ${id} was not found in local storage.`);
   }
 }
-

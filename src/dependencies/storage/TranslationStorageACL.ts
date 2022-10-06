@@ -11,19 +11,19 @@ export default class TranslationStorageACL<N extends Language>
     this.localStorage = new LocalStorage("TRANSLATIONS");
   }
 
-  async getAllTranslationsForForeignLanguage(
+  getAllTranslationsForForeignLanguage = async (
     language: OtherLanguage<N>
-  ): Promise<Translation<N>[]> {
+  ): Promise<Translation<N>[]> => {
     const allTranslations = await Promise.resolve(
       this.localStorage.getAllItems()
     );
     return allTranslations.filter(
       ({ foreign }) => foreign.language === language
     );
-  }
+  };
 
-  saveTranslation(translation: Translation<N>): Promise<void> {
+  saveTranslation = (translation: Translation<N>): Promise<void> => {
     this.localStorage.insertItem(translation);
     return Promise.resolve();
-  }
+  };
 }
